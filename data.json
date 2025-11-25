@@ -1,16 +1,18 @@
 {
+    "IgneousBlizzard": {
+        "attendance": [],
+        "role": true
+    },
     "IgneousKaiser": {
-        "attendance": [
-            "2025-01-01T00:00:00",
-            "2025-02-10T00:00:00"
-        ],
-        "role": false
+        "attendance": [],
+        "role": true
     },
     "fishpint": {
-        "attendance": [
-            "2025-02-06T00:00:00",
-            "2025-04-12T00:00:00"
-        ],
+        "attendance": [],
+        "role": true
+    },
+    "notfishpint": {
+        "attendance": [],
         "role": true
     }
 }

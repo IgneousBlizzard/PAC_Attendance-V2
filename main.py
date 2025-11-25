@@ -37,8 +37,25 @@ class staff:
     def get(cls, username):
         return cls.staff_list.get(username)
     
+    @classmethod
+    def find_from_partial(cls, partial):
+        matches = []
+        for username, member in cls.staff_list.items():
+            if partial.lower() in username.lower():
+                matches.append(member)
+        return matches
+    
+staff.load_from_json("data.json")
 
-staff("IgneousKaiser", [datetime(2025,1,1), datetime(2025,2,10)], False)
-staff("fishpint", [datetime(2025,2,6), datetime(2025,4,12)], True)
+mock_input = "igneous"
 
-staff.save_to_json("data.json")
+matches = staff.find_from_partial(mock_input)
+
+if len(matches) > 1:
+    print("More than one match found!")
+    for match in matches:
+        print(match.username)
+elif len(matches) == 1:
+    print(f"One match found!\n{matches[0].username}")
+else:
+    print("No matches found!")
