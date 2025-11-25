@@ -44,4 +44,28 @@ class staff:
             if partial.lower() in username.lower():
                 matches.append(member)
         return matches
-    
+
+print("'e' to exit any of the following.")
+
+year = None
+month = None
+day = None
+while True:
+    year = input("Year: ")
+    if year == "e":
+        year = None
+        break
+    else:
+        while True:
+            month = input("Month: ")
+            if month == "e":
+                month = None
+                break
+            else:
+                while True:
+                    day = input("Day: ")
+                    if day == "e":
+                        day = None
+                        break
+                    else:
+                        pass
