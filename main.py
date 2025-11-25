@@ -45,17 +45,3 @@ class staff:
                 matches.append(member)
         return matches
     
-staff.load_from_json("data.json")
-
-mock_input = "igneous"
-
-matches = staff.find_from_partial(mock_input)
-
-if len(matches) > 1:
-    print("More than one match found!")
-    for match in matches:
-        print(match.username)
-elif len(matches) == 1:
-    print(f"One match found!\n{matches[0].username}")
-else:
-    print("No matches found!")
