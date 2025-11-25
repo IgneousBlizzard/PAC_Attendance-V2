@@ -44,12 +44,28 @@ class staff:
             if partial.lower() in username.lower():
                 matches.append(member)
         return matches
+    
+    @classmethod
+    def add_user(cls, username):
+        pass
+
+    @classmethod
+    def remove_user(cls, username):
+        pass
+
+    @classmethod
+    def add_event(cls, username, event):
+        pass
+
+
+staff.load_from_json("data.json")
 
 print("'e' to exit any of the following.")
 
 year = None
 month = None
 day = None
+role = False # Default to CC
 while True:
     year = input("Year: ")
     if year == "e":
@@ -68,4 +84,17 @@ while True:
                         day = None
                         break
                     else:
-                        pass
+                        while True:
+                            user_in = input(f"Username ({role}): ")
+                            if user_in == "e":
+                                user_in = None
+                                break
+                            else:
+                                matches = staff.find_from_partial
+                                if len(matches) > 1:
+                                    pass
+                                elif len(matches) == 1:
+                                    pass
+                                else:
+                                    print("No matches found.")
+                                    continue
