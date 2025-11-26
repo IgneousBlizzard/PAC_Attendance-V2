@@ -167,18 +167,42 @@ def run_leaderboard_loop():
 			thirty_day_activity = {}
 
 			for member in staff.staff_list.values():
-				count = sum(1 for datetime in member.attendance if datetime.date() >= thirty_days_ago)
-				thirty_day_activity[member] = count
+				if member.attendance:
+					count = sum(1 for datetime in member.attendance if datetime.date() >= thirty_days_ago)
+					thirty_day_activity[member] = count
+				else:
+					count = -1
 			
 			thirty_day_activity = sorted(thirty_day_activity.items(), key= lambda x: x[1], reverse= True)
 
 			for user_object, days in thirty_day_activity:
-				print(user_object.username, days)
+				if days > -1:
+					print(user_object.username + ":", days)
+				else:
+					print(user_object.username + ":", days)
 
 			
 			input("\nEnter to continue. ")
 		elif user_input == "3":
-			pass
+			clear_term()
+			print("|| TOTAL ACTIVITY ||\n")
+
+			total_activity = {}
+			for username, user_object in staff.staff_list.items():
+				if user_object.attendance:
+					total_activity[user_object] = sum(1 for attendance in user_object.attendance)
+				else:
+					total_activity[user_object] = -1
+			
+			total_activity = sorted(total_activity.items(), key= lambda x: x[1], reverse= True)
+			
+			for user_object, days in total_activity:
+				if days > -1:
+					print(user_object.username + ":", days)
+				else:
+					print(user_object.username + ":", "No activity found.")
+
+			input("\nEnter to continue. ")
 		elif user_input == "e":
 			break
 
