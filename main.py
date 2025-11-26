@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 
 class staff:
@@ -128,7 +128,7 @@ def run_add_user_loop():
 			else:
 				print("Invalid entry.")
 
-# !! BEWARE !!! EVIL ASS FUNCTION !!!
+# !! BEWARE !!! EVIL ASS FUNCTION !!! DO NOT TOUCH !!! YOU WILL REGRET IT !!!
 def run_leaderboard_loop():
 	while True:
 		clear_term()
@@ -156,6 +156,29 @@ def run_leaderboard_loop():
 					print(i.username + ":", days_to_today)
 
 			input("\nEnter to continue. ")
+
+		elif user_input == "2":
+			today = datetime.today().date()
+			thirty_days_ago = today - timedelta(days=30)
+
+			clear_term()
+			print("|| 30 Day Activity ||\n")
+
+			thirty_day_activity = {}
+
+			for member in staff.staff_list.values():
+				count = sum(1 for datetime in member.attendance if datetime.date() >= thirty_days_ago)
+				thirty_day_activity[member] = count
+			
+			thirty_day_activity = sorted(thirty_day_activity.items(), key= lambda x: x[1], reverse= True)
+
+			for user_object, days in thirty_day_activity:
+				print(user_object.username, days)
+
+			
+			input("\nEnter to continue. ")
+		elif user_input == "3":
+			pass
 		elif user_input == "e":
 			break
 
