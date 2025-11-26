@@ -107,7 +107,33 @@ def run_event_loop():
 		staff.save_to_json("data.json")
 	
 def run_remove_user_loop():
-	pass
+	while True:
+		user_input = input("User to remove, or 'e' to exit: ")
+		if user_input in staff.staff_list:
+			if input("Are you sure you want to remove", user_input, "from data.json?") == "y":
+				staff.staff_list.pop(user_input)
+		elif user_input == "e":
+			break
+
+def run_add_user_loop():
+	user_input = input("User to add (Full username): ")
+	if user_input in staff.staff_list:
+		print("User already present.")
+	else:
+		if input("Are you sure you want to add", user_input, "to the staff list?") == "y":
+			role = input("Are they a pilot? (y/n) ")
+			if role == "y":
+				staff.add_user(user_input, True)
+			elif role == "n":
+				staff.add_user(user_input, False)
+			else:
+				print("Invalid entry.")
+
+def run_leaderboard_export():
+	users_sorted = None
+	
+	print("|| PAC ACTIVITY TRACKER V2 ||\n")
+
 
 while True:
 	print("|| PAC ATTENDANCE TRACKER ||\n\n1. Add new event.\n2. Export to leaderboard\n3. Add new user\n4. Remove user")
@@ -121,4 +147,9 @@ while True:
 		pass
 
 	elif user_input == "3":
-		pass
+		run_add_user_loop()
+		clear_term()
+
+	elif user_input == "4":
+		run_remove_user_loop()
+		clear_term()
