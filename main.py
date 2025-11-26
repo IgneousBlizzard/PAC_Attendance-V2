@@ -57,7 +57,6 @@ class staff:
 	@classmethod
 	def add_event(cls, user_object, event):
 		staff.staff_list[user_object.username].attendance.append(event)
-		print(user_object.username, user_object.attendance)
 
 staff.load_from_json("data.json")
 
@@ -99,7 +98,7 @@ def run_event_loop():
 										print("Multiple users found.\n", ", ".join(i.username for i in matches), "\n")
 										continue
 									elif len(matches) == 1:
-										staff.add_event(matches[0], datetime.strptime(f"{month}{day}{year}", "%m%d%y").date())
+										staff.add_event(matches[0], datetime.strptime(f"{month}{day}{year}", "%m%d%y"))
 									else:
 										print("No matches found.")
 		
@@ -129,31 +128,36 @@ def run_add_user_loop():
 			else:
 				print("Invalid entry.")
 
+# !! BEWARE !!! EVIL ASS FUNCTION !!!
 def run_leaderboard_loop():
 	while True:
 		clear_term()
-		print("|| PAC ACTIVITY LEADERBOARD V2 ||\n\n1. Days since last attendance\n2. 30 day activity\n3. TOTAL recorded activity")
+		print("|| PAC ACTIVITY LEADERBOARD V2 ||\n\n1. Days since last attendance\n2. 30 day activity\n3. TOTAL recorded activity\n'e'. exit")
 		user_input = input(">> ")
 
 		if user_input == "1":
 			sorted_staff = sorted(
 				staff.staff_list.values(),
 				key= lambda s: max(s.attendance) if s.attendance else datetime.min,
-				reverse= True
+				reverse= False
 			)
 
 			clear_term()
 			print("|| Last Active ||\n")
 
+
 			for i in sorted_staff:
 				try: 
-					days_to_today = (datetime.today() - max(i.attendance)).days
+					most_recent_attendance = max(i.attendance).date()
+					days_to_today = (datetime.today().date() - most_recent_attendance).days
 				except:
 					days_to_today = -1
-				print(i.username, days_to_today)
+				if days_to_today != -1:
+					print(i.username + ":", days_to_today)
 
-			input("Enter to continue. ")
-
+			input("\nEnter to continue. ")
+		elif user_input == "e":
+			break
 
 while True:
 	clear_term()
