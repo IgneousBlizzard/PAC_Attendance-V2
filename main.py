@@ -15,7 +15,7 @@ class staff:
 			"attendance": [date.isoformat() for date in self.attendance],
 			"role": self.role
 		}
-
+	
 	@classmethod
 	def save_to_json(cls, filename):
 		with open(filename, "w") as f:
@@ -89,7 +89,7 @@ def run_event_loop():
 							break
 						else:
 							while True:
-								user_in = input(f"Username: ")
+								user_in = input("Username: ")
 								if user_in == "e":
 									user_in = None
 									break
@@ -99,7 +99,7 @@ def run_event_loop():
 										print("Multiple users found.\n", ", ".join(i.username for i in matches), "\n")
 										continue
 									elif len(matches) == 1:
-										staff.add_event(matches[0], datetime.strptime(f"{month}{day}{year}", "%m%d%y"))
+										staff.add_event(matches[0], datetime.strptime(f"{month}{day}{year}", "%m%d%y").date())
 									else:
 										print("No matches found.")
 		
@@ -129,14 +129,35 @@ def run_add_user_loop():
 			else:
 				print("Invalid entry.")
 
-def run_leaderboard_export():
-	users_sorted = None
-	
-	print("|| PAC ACTIVITY TRACKER V2 ||\n")
+def run_leaderboard_loop():
+	while True:
+		clear_term()
+		print("|| PAC ACTIVITY LEADERBOARD V2 ||\n\n1. Days since last attendance\n2. 30 day activity\n3. TOTAL recorded activity")
+		user_input = input(">> ")
+
+		if user_input == "1":
+			sorted_staff = sorted(
+				staff.staff_list.values(),
+				key= lambda s: max(s.attendance) if s.attendance else datetime.min,
+				reverse= True
+			)
+
+			clear_term()
+			print("|| Last Active ||\n")
+
+			for i in sorted_staff:
+				try: 
+					days_to_today = (datetime.today() - max(i.attendance)).days
+				except:
+					days_to_today = -1
+				print(i.username, days_to_today)
+
+			input("Enter to continue. ")
 
 
 while True:
-	print("|| PAC ATTENDANCE TRACKER ||\n\n1. Add new event.\n2. Export to leaderboard\n3. Add new user\n4. Remove user")
+	clear_term()
+	print("|| PAC ATTENDANCE TRACKER V2 ||\n\n1. Add new event.\n2. Export to leaderboard\n3. Add new user\n4. Remove user")
 
 	user_input = input(">> ")
 	if user_input == "1":
@@ -144,7 +165,8 @@ while True:
 		clear_term()
 
 	elif user_input == "2":
-		pass
+		run_leaderboard_loop()
+		clear_term()
 
 	elif user_input == "3":
 		run_add_user_loop()
