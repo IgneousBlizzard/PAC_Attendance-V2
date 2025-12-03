@@ -119,7 +119,7 @@ def run_add_user_loop():
 	if user_input in staff.staff_list:
 		print("User already present.")
 	else:
-		if input("Are you sure you want to add", user_input, "to the staff list?") == "y":
+		if input(f"Are you sure you want to add {user_input} to the staff list?") == "y":
 			role = input("Are they a pilot? (y/n) ")
 			if role == "y":
 				staff.add_user(user_input, True)
@@ -128,36 +128,53 @@ def run_add_user_loop():
 			else:
 				print("Invalid entry.")
 
-# !! BEWARE !!! EVIL ASS FUNCTION !!! DO NOT TOUCH !!! YOU WILL REGRET IT !!!
+# !!! BEWARE !!! EVIL ASS FUNCTION !!! DO NOT TOUCH !!! YOU WILL REGRET IT !!!
 def run_leaderboard_loop():
 	while True:
 		clear_term()
 		print("|| PAC ACTIVITY LEADERBOARD V2 ||\n\n1. Days since last attendance\n2. 30 day activity\n3. TOTAL recorded activity\n'e'. exit")
 		user_input = input(">> ")
 
-		if user_input == "1":
+		if user_input == "1":	# Days since last attendance
 			sorted_staff = sorted(
 				staff.staff_list.values(),
-				key= lambda s: max(s.attendance) if s.attendance else datetime.min,
+				key= lambda s: max(s.attendance) if s.attendance else datetime.max,
 				reverse= False
 			)
 
 			clear_term()
 			print("|| Last Active ||\n")
 
-
+			print("| CREW CHIEF |")
 			for i in sorted_staff:
-				try: 
-					most_recent_attendance = max(i.attendance).date()
-					days_to_today = (datetime.today().date() - most_recent_attendance).days
-				except:
-					days_to_today = -1
-				if days_to_today != -1:
-					print(i.username + ":", days_to_today)
+				if i.role == False:
+					try: 
+						most_recent_attendance = max(i.attendance).date()
+						days_to_today = (datetime.today().date() - most_recent_attendance).days
+					except:
+						days_to_today = -1
+					if days_to_today == -1:
+						print(i.username + ":", "No Activity Found")
+					else:
+						print(i.username + ":", days_to_today)
+
+			print("\n| PILOT |")
+			
+			for i in sorted_staff:
+				if i.role == True:
+					try: 
+						most_recent_attendance = max(i.attendance).date()
+						days_to_today = (datetime.today().date() - most_recent_attendance).days
+					except:
+						days_to_today = -1
+					if days_to_today == -1:
+						print(i.username + ":", "No Activity Found")
+					else:
+						print(i.username + ":", days_to_today)
 
 			input("\nEnter to continue. ")
 
-		elif user_input == "2":
+		elif user_input == "2":		# 30 day activity
 			today = datetime.today().date()
 			thirty_days_ago = today - timedelta(days=30)
 
@@ -183,7 +200,8 @@ def run_leaderboard_loop():
 
 			
 			input("\nEnter to continue. ")
-		elif user_input == "3":
+
+		elif user_input == "3":		# Total recorded activity
 			clear_term()
 			print("|| TOTAL ACTIVITY ||\n")
 
@@ -200,10 +218,11 @@ def run_leaderboard_loop():
 				if days > -1:
 					print(user_object.username + ":", days)
 				else:
-					print(user_object.username + ":", "No activity found.")
+					print(user_object.username + ":", "No Activity Found")
 
 			input("\nEnter to continue. ")
-		elif user_input == "e":
+
+		elif user_input == "e":		# EXIT
 			break
 
 while True:
