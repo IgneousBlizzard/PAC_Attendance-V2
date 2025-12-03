@@ -70,7 +70,7 @@ def clear_term():
 
 def run_event_loop():
 	clear_term()
-	print("'e' to exit any of the following.")
+	print("'e' to exit any of the following. Username has an auto fil. ex, IgneousBlizzard can be entered with bliz.")
 	year = None
 	month = None
 	day = None
@@ -129,7 +129,7 @@ def run_add_user_loop():
 		elif user_input == "e":
 			break
 		else:
-			if input(f"Are you sure you want to add {user_input} to the staff list? ") == "y":
+			if input(f"Are you sure you want to add {user_input} to the staff list? (y/n) ") == "y":
 				role = input("Are they a pilot? (y/n) ")
 				if role == "y":
 					staff.add_user(user_input, True)
