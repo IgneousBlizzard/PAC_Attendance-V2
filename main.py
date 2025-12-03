@@ -1,5 +1,5 @@
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import os
 
 class staff:
@@ -16,6 +16,11 @@ class staff:
 			"role": self.role
 		}
 	
+	def update_name(self, name):
+		staff.staff_list.pop(self.username)
+		self.username = name
+		staff.staff_list[name] = self
+	
 	@classmethod
 	def save_to_json(cls, filename):
 		with open(filename, "w") as f:
@@ -28,7 +33,7 @@ class staff:
 			data = json.load(f)
 		cls.staff_list.clear()
 		for username, member_data in data.items():
-			attendance_dates = [datetime.fromisoformat(d).date() for d in member_data.get("attendance", [])]
+			attendance_dates = [datetime.fromisoformat(d) for d in member_data.get("attendance", [])]
 			staff(
 				username,
 				attendance=attendance_dates, role=member_data.get("role", False)
@@ -64,7 +69,7 @@ def clear_term():
 	os.system("cls")
 
 def run_event_loop():
-
+	clear_term()
 	print("'e' to exit any of the following.")
 	year = None
 	month = None
@@ -106,27 +111,49 @@ def run_event_loop():
 		staff.save_to_json("data.json")
 	
 def run_remove_user_loop():
+	clear_term()
 	while True:
 		user_input = input("User to remove, or 'e' to exit: ")
 		if user_input in staff.staff_list:
-			if input("Are you sure you want to remove", user_input, "from data.json?") == "y":
+			if input(f"Are you sure you want to remove {user_input} from data.json? (y/n) ") == "y":
 				staff.staff_list.pop(user_input)
 		elif user_input == "e":
 			break
 
 def run_add_user_loop():
-	user_input = input("User to add (Full username): ")
-	if user_input in staff.staff_list:
-		print("User already present.")
-	else:
-		if input(f"Are you sure you want to add {user_input} to the staff list?") == "y":
-			role = input("Are they a pilot? (y/n) ")
-			if role == "y":
-				staff.add_user(user_input, True)
-			elif role == "n":
-				staff.add_user(user_input, False)
-			else:
-				print("Invalid entry.")
+	clear_term()
+	while True:
+		user_input = input("User to add (Full username): ")
+		if user_input in staff.staff_list:
+			print("User already present.")
+		elif user_input == "e":
+			break
+		else:
+			if input(f"Are you sure you want to add {user_input} to the staff list?") == "y":
+				role = input("Are they a pilot? (y/n) ")
+				if role == "y":
+					staff.add_user(user_input, True)
+				elif role == "n":
+					staff.add_user(user_input, False)
+				else:
+					clear_term()
+					print("Invalid entry.")
+
+def run_update_username_loop():
+	clear_term()
+	while True:
+		clear_term()
+		user_input = input("Original Username (case sensitive), or 'e to exit: ")
+		if user_input in staff.staff_list:
+			new_user = input("New username, or 'e' to exit: ")
+			if new_user not in staff.staff_list and new_user != "e":
+				user = staff.get(user_input)
+				user.update_name(new_user)
+			elif new_user == "e":
+				break
+		elif user_input == "e":
+			break
+
 
 # !!! BEWARE !!! EVIL ASS FUNCTION !!! DO NOT TOUCH !!! YOU WILL REGRET IT !!!
 def run_leaderboard_loop():
@@ -249,7 +276,7 @@ def run_leaderboard_loop():
 
 while True:
 	clear_term()
-	print("|| PAC ATTENDANCE TRACKER V2 ||\n\n1. Add new event.\n2. Export to leaderboard\n3. Add new user\n4. Remove user\n'e'. Exit")
+	print("|| PAC ATTENDANCE TRACKER V2 ||\n\n1. Add new event.\n2. Export to leaderboard\n3. Add new user\n4. Remove user\n5. Update username\n'e'. Exit")
 
 	user_input = input(">> ")
 	if user_input == "1":
@@ -266,6 +293,9 @@ while True:
 
 	elif user_input == "4":
 		run_remove_user_loop()
+		clear_term()
+	elif user_input == "5":
+		run_update_username_loop()
 		clear_term()
 	elif user_input == "e":
 		staff.save_to_json("data.json")
