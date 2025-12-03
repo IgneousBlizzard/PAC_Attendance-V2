@@ -354,7 +354,9 @@
             "2025-11-26T00:00:00",
             "2025-11-27T00:00:00",
             "2025-12-02T00:00:00",
-            "2025-12-02T00:00:00"
+            "2025-12-02T00:00:00",
+            "2025-12-03T00:00:00",
+            "2025-12-03T00:00:00"
         ],
         "role": false
     },
@@ -378,6 +380,41 @@
             "2025-11-24T00:00:00",
             "2025-11-27T00:00:00"
         ],
+        "role": false
+    },
+    "exjonks": {
+        "attendance": [
+            "2025-12-03T00:00:00"
+        ],
+        "role": false
+    },
+    "epicegamer_3232": {
+        "attendance": [
+            "2025-12-03T00:00:00",
+            "2025-12-03T00:00:00"
+        ],
+        "role": false
+    },
+    "HinderingSilliness": {
+        "attendance": [],
+        "role": false
+    },
+    "Jackson10_517": {
+        "attendance": [
+            "2025-12-03T00:00:00"
+        ],
+        "role": false
+    },
+    "jaxsang": {
+        "attendance": [],
+        "role": false
+    },
+    "c_owws": {
+        "attendance": [],
+        "role": false
+    },
+    "arnnrrr": {
+        "attendance": [],
         "role": false
     }
 }
