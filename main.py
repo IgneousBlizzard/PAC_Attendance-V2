@@ -249,7 +249,7 @@ def run_leaderboard_loop():
 
 while True:
 	clear_term()
-	print("|| PAC ATTENDANCE TRACKER V2 ||\n\n1. Add new event.\n2. Export to leaderboard\n3. Add new user\n4. Remove user")
+	print("|| PAC ATTENDANCE TRACKER V2 ||\n\n1. Add new event.\n2. Export to leaderboard\n3. Add new user\n4. Remove user\n'e'. Exit")
 
 	user_input = input(">> ")
 	if user_input == "1":
@@ -267,3 +267,5 @@ while True:
 	elif user_input == "4":
 		run_remove_user_loop()
 		clear_term()
+	elif user_input == "e":
+		break
