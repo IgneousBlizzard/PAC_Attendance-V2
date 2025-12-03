@@ -28,7 +28,7 @@ class staff:
 			data = json.load(f)
 		cls.staff_list.clear()
 		for username, member_data in data.items():
-			attendance_dates = [datetime.fromisoformat(d) for d in member_data.get("attendance", [])]
+			attendance_dates = [datetime.fromisoformat(d).date() for d in member_data.get("attendance", [])]
 			staff(
 				username,
 				attendance=attendance_dates, role=member_data.get("role", False)
@@ -268,4 +268,5 @@ while True:
 		run_remove_user_loop()
 		clear_term()
 	elif user_input == "e":
+		staff.save_to_json("data.json")
 		break
