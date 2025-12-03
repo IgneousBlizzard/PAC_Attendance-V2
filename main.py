@@ -192,11 +192,21 @@ def run_leaderboard_loop():
 			
 			thirty_day_activity = sorted(thirty_day_activity.items(), key= lambda x: x[1], reverse= True)
 
+			print("| CREW CHIEF |")
 			for user_object, days in thirty_day_activity:
-				if days > -1:
-					print(user_object.username + ":", days)
-				else:
-					print(user_object.username + ":", days)
+				if user_object.role == False:
+					if days > -1:
+						print(user_object.username + ":", days)
+					else:
+						print(user_object.username + ":", days)
+
+			print("\n| PILOT |")
+			for user_object, days in thirty_day_activity:
+				if user_object.role == True:
+					if days > -1:
+						print(user_object.username + ":", days)
+					else:
+						print(user_object.username + ":", days)
 
 			
 			input("\nEnter to continue. ")
@@ -214,11 +224,23 @@ def run_leaderboard_loop():
 			
 			total_activity = sorted(total_activity.items(), key= lambda x: x[1], reverse= True)
 			
+			print("| CREW CHIEF |")
 			for user_object, days in total_activity:
-				if days > -1:
-					print(user_object.username + ":", days)
-				else:
-					print(user_object.username + ":", "No Activity Found")
+				if user_object.role == False:
+					if days > -1:
+						print(user_object.username + ":", days)
+					else:
+						print(user_object.username + ":", "No Activity Found")
+
+			print("\n| PILOT |")
+			for user_object, days in total_activity:
+				if user_object.role == True:
+					if days > -1:
+						print(user_object.username + ":", days)
+					else:
+						print(user_object.username + ":", "No Activity Found")
+
+					
 
 			input("\nEnter to continue. ")
 
